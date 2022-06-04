@@ -36,7 +36,7 @@ def start_timer():
 
 
 def user_type(event):
-    user_words.append(entry_box.get().title().strip())
+    user_words.append(entry_box.get().strip())
     entry_box.delete(0, "end")
     if len(user_words) % 8 == 0:
         random_words()
