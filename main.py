@@ -1,4 +1,3 @@
-
 from english_words import english_words_lower_set
 from tkinter import *
 import csv
@@ -15,6 +14,12 @@ wpm_count = 0
 cpm_count = 0
 
 
+def start_timer():
+    if window.after_id is not None:
+        window.after_cancel(window.after_id)
+    count_down(60)
+
+
 def count_down(count):
     if count > 0:
         window.after_id = window.after(1000, count_down, count-1)
@@ -29,21 +34,6 @@ def count_down(count):
     timer_text.config(text=f"{count}")
 
 
-def start_timer():
-    if window.after_id is not None:
-        window.after_cancel(window.after_id)
-    count_down(60)
-
-
-def user_type(event):
-    user_words.append(entry_box.get().strip())
-    entry_box.delete(0, "end")
-    if len(user_words) % 8 == 0:
-        random_words()
-
-
-
-
 def random_words():
     global display
     display = ""
@@ -54,17 +44,11 @@ def random_words():
     canvas.itemconfig(word_show, text=display)
 
 
-def restart():
-    global showed_words, user_words, wpm_count, cpm_count
-    showed_words = []
-    user_words = []
-    wpm_count = 0
-    cpm_count = 0
-    wpm_value.config(text=wpm_count)
-    cpm_value.config(text=cpm_count)
-    entry_box.config(state="normal")
-    start_timer()
-    random_words()
+def user_type(event):
+    user_words.append(entry_box.get().strip())
+    entry_box.delete(0, "end")
+    if len(user_words) % 8 == 0:
+        random_words()
 
 
 def start(event):
@@ -79,6 +63,19 @@ def start(event):
     start_timer()
     random_words()
     window.unbind("<Return>")
+
+
+def restart():
+    global showed_words, user_words, wpm_count, cpm_count
+    showed_words = []
+    user_words = []
+    wpm_count = 0
+    cpm_count = 0
+    wpm_value.config(text=wpm_count)
+    cpm_value.config(text=cpm_count)
+    entry_box.config(state="normal")
+    start_timer()
+    random_words()
 
 
 def compare():
